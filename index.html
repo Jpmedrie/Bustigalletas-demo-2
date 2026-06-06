@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bustigalletas – Galletas Artesanales en Mérida, Yucatán</title>
+  <meta name="description" content="Galletas artesanales hechas a mano en Mérida, Yucatán. Brownie relleno, Red Velvet, Chispas con Nutella y más. Entregas martes y jueves." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===================================================
+       RESET & TOKENS
+    =================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:    #C56E23;
+      --choc:      #2B1204;
+      --sky:       #9CD8E9;
+      --blue:      #9BD0DE;
+      --stone:     #B9B1AA;
+      --cream:     #FDF6EE;
+      --white:     #FFFFFF;
+      --head:      'Playfair Display', Georgia, serif;
+      --body:      'Nunito', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: var(--body);
+      background: var(--cream);
+      color: var(--choc);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a   { text-decoration: none; color: inherit; }
+    ul  { list-style: none; }
+
+    /* ===================================================
+       BUTTON SYSTEM
+    =================================================== */
+    .btn {
+      display: inline-block;
+      font-family: var(--body);
+      font-weight: 700;
+      font-size: 16px;
+      border-radius: 8px;
+      padding: 14px 36px;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, transform 0.2s, box-shadow 0.25s, border-color 0.25s;
+      border: 2px solid transparent;
+    }
+    .btn-solid {
+      background: var(--orange);
+      color: var(--white);
+      border-color: var(--orange);
+    }
+    .btn-solid:hover {
+      background: #a85c1c;
+      border-color: #a85c1c;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(197,110,35,0.38);
+    }
+    .btn-outline-white {
+      background: transparent;
+      color: var(--white);
+      border-color: var(--white);
+    }
+    .btn-outline-white:hover {
+      background: var(--white);
+      color: var(--choc);
+      transform: translateY(-2px);
+    }
+    .btn-outline-orange {
+      background: transparent;
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+    .btn-outline-orange:hover {
+      background: var(--orange);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .btn-white-fill {
+      background: var(--white);
+      color: var(--orange);
+      border-color: var(--white);
+      font-size: 18px;
+      padding: 18px 48px;
+    }
+    .btn-white-fill:hover {
+      background: #f2e9e0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(255,255,255,0.25);
+    }
+
+    /* ===================================================
+       SCROLL ANIMATIONS
+    =================================================== */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .reveal.in { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    /* ===================================================
+       NAVBAR
+    =================================================== */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: 72px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background 0.35s ease, border-color 0.35s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(253,246,238,0.97);
+      border-bottom-color: rgba(197,110,35,0.28);
+      box-shadow: 0 2px 16px rgba(43,18,4,0.06);
+    }
+
+    /* Logo */
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 48px; width: auto; }
+
+    /* Fallback if logo doesn't load */
+    .nav-logo-text {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--white);
+      transition: color 0.35s;
+      display: none;
+    }
+    .nav-logo img.broken + .nav-logo-text { display: block; }
+    #navbar.scrolled .nav-logo-text { color: var(--choc); }
+
+    /* Center links */
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-links a {
+      font-weight: 600;
+      font-size: 15px;
+      color: rgba(255,255,255,0.92);
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a:hover { color: rgba(255,255,255,1); }
+    #navbar.scrolled .nav-links a { color: var(--choc); }
+    #navbar.scrolled .nav-links a:hover { color: var(--orange); }
+
+    /* CTA */
+    .nav-cta {
+      background: var(--orange);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background 0.25s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: #a85c1c; transform: translateY(-1px); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--white);
+      transition: background 0.3s, transform 0.35s;
+    }
+    #navbar.scrolled .hamburger span { background: var(--choc); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-drawer {
+      position: fixed;
+      top: 72px; left: 0; right: 0;
+      background: var(--cream);
+      flex-direction: column;
+      padding: 16px 6% 32px;
+      z-index: 999;
+      border-bottom: 2px solid var(--orange);
+      box-shadow: 0 8px 24px rgba(43,18,4,0.12);
+      transform: translateY(-110%);
+      transition: transform 0.35s ease;
+      display: flex;
+    }
+    .mobile-drawer.open { transform: translateY(0); }
+    .mobile-drawer a {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--choc);
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(197,110,35,0.12);
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .mobile-drawer a:hover { color: var(--orange); padding-left: 4px; }
+    .mobile-drawer a:last-of-type { border-bottom: none; }
+    .mobile-cta-link {
+      margin-top: 16px;
+      display: block;
+      text-align: center;
+      background: var(--orange);
+      color: var(--white) !important;
+      border-radius: 8px;
+      padding: 14px !important;
+      border-bottom: none !important;
+    }
+    .mobile-cta-link:hover { background: #a85c1c; }
+
+    /* ===================================================
+       HERO
+    =================================================== */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Hero background — elegant cookie-toned gradient as default */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(43,18,4,0.88) 40%, rgba(43,18,4,0.28) 100%),
+        linear-gradient(135deg, #3d1a07 0%, #6b2f0e 40%, #c56e23 80%, #e8975a 100%);
+      background-size: cover;
+      background-position: center;
+    }
+    /* The actual photo — displayed on top of gradient via CSS, degrades gracefully */
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('images/brownie_rellena.jpg'), url('https://www.genspark.ai/api/files/s/76imT6oK');
+      background-size: cover;
+      background-position: center;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(43,18,4,0.88) 40%, rgba(43,18,4,0.28) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 580px;
+      padding-left: 8%;
+      padding-right: 5%;
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+
+    /* Staggered hero animations */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-anim {
+        opacity: 0;
+        transform: translateY(28px);
+        animation: heroUp 0.7s ease forwards;
+      }
+    }
+    @keyframes heroUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag {
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      animation-delay: 0.2s;
+    }
+    .hero-h1 {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: clamp(38px, 5vw, 66px);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 22px;
+      animation-delay: 0.4s;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 36px;
+      max-width: 500px;
+      animation-delay: 0.6s;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation-delay: 0.8s;
+    }
+
+    .scroll-arrow {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      cursor: pointer;
+      opacity: 0;
+      animation: heroUp 0.7s ease forwards 1s, arrowBounce 2s ease-in-out infinite 1.2s;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-anim, .scroll-arrow { opacity: 1; transform: none; animation: none; }
+    }
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+    .scroll-arrow svg {
+      width: 34px;
+      height: 34px;
+      stroke: var(--orange);
+      filter: drop-shadow(0 2px 6px rgba(197,110,35,0.5));
+    }
+
+    /* ===================================================
+       TRUST BAR
+    =================================================== */
+    #trust-bar {
+      background: var(--sky);
+      padding: 56px 6%;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .trust-item {
+      text-align: center;
+      padding: 28px 24px;
+      border-right: 1px solid rgba(43,18,4,0.15);
+    }
+    .trust-item:last-child { border-right: none; }
+
+    .trust-number {
+      display: block;
+      font-family: var(--head);
+      font-size: clamp(36px, 3.5vw, 52px);
+      font-weight: 700;
+      color: var(--choc);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .trust-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(43,18,4,0.72);
+    }
+
+    /* ===================================================
+       PRODUCTS
+    =================================================== */
+    #galletas {
+      background: var(--cream);
+      padding: 96px 6%;
+    }
+
+    .section-eyebrow {
+      display: block;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--orange);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .section-h2 {
+      font-family: var(--head);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--choc);
+      margin-bottom: 14px;
+    }
+    .section-lead {
+      font-size: 16px;
+      color: var(--stone);
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto 56px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(43,18,4,0.07);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(43,18,4,0.13);
+    }
+
+    .card-media {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+    }
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+    }
+    .product-card:hover .card-media img { transform: scale(1.05); }
+
+    /* Gradient placeholder (used when no photo) */
+    .card-gradient {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-gradient .card-icon {
+      font-size: 56px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
+    .card-body { padding: 24px; }
+    .card-name {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--choc);
+      margin-bottom: 8px;
+    }
+    .card-desc {
+      font-size: 14px;
+      color: var(--stone);
+      margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.6;
+    }
+    .card-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--orange);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .card-btn:hover { background: #a85c1c; transform: translateY(-1px); }
+
+    /* ===================================================
+       HOW IT WORKS
+    =================================================== */
+    #como-funciona {
+      position: relative;
+      background: var(--choc);
+      padding: 96px 6%;
+      overflow: hidden;
+    }
+
+    .how-photo-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/muestra_de_caja.jpg'), url('https://www.genspark.ai/api/files/s/kdIm2vIh');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.10;
+      pointer-events: none;
+    }
+    /* Fallback gradient if image missing */
+    .how-photo-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 50%, rgba(197,110,35,0.12) 0%, transparent 70%);
+    }
+
+    .how-z { position: relative; z-index: 2; }
+
+    .how-title-white { color: var(--white) !important; }
+    .how-lead-white  { color: rgba(255,255,255,0.58) !important; margin-bottom: 64px !important; }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0 8px;
+      max-width: 1100px;
+      margin: 0 auto 56px;
+      position: relative;
+    }
+    .how-steps::before {
+      content: '';
+      position: absolute;
+      top: 27px;
+      left: calc(12.5% + 28px);
+      right: calc(12.5% + 28px);
+      height: 1px;
+      border-top: 1px dashed rgba(197,110,35,0.42);
+    }
+
+    .step {
+      text-align: center;
+      padding: 0 16px;
+    }
+    .step-bubble {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      font-size: 24px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 16px rgba(197,110,35,0.45);
+    }
+    .step-num {
+      position: absolute;
+      top: -6px; right: -6px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-title {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.68);
+      line-height: 1.7;
+    }
+
+    .how-cta { text-align: center; }
+
+    /* ===================================================
+       PEDIDOS ESPECIALES
+    =================================================== */
+    #pedidos-especiales {
+      background: var(--cream);
+      padding: 96px 6%;
+    }
+
+    .special-wrap {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .special-photo {
+      border-radius: 20px;
+      overflow: hidden;
+      height: 580px;
+      position: relative;
+      background: linear-gradient(135deg, #C56E23 0%, #e8975a 100%);
+    }
+    .special-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .special-photo:hover img { transform: scale(1.03); }
+    /* Fallback emoji */
+    .special-photo .photo-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+    }
+
+    .special-copy h2 {
+      font-family: var(--head);
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 700;
+      color: var(--choc);
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+    .special-copy p {
+      font-size: 17px;
+      color: var(--stone);
+      margin-bottom: 28px;
+      line-height: 1.8;
+    }
+    .special-bullets { margin-bottom: 36px; }
+    .special-bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 16px;
+      color: var(--choc);
+      padding: 9px 0;
+    }
+    .check {
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.3;
+      flex-shrink: 0;
+    }
+
+    /* ===================================================
+       TESTIMONIALS
+    =================================================== */
+    #testimonios {
+      background: var(--white);
+      padding: 96px 6%;
+    }
+
+    .carousel-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 260px;
+    }
+
+    .t-slide {
+      display: none;
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 40px 44px;
+      animation: tFade 0.5s ease;
+    }
+    .t-slide.on { display: block; }
+    @keyframes tFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .stars { color: var(--orange); font-size: 20px; letter-spacing: 2px; margin-bottom: 18px; }
+    .t-quote {
+      font-family: var(--head);
+      font-style: italic;
+      font-size: clamp(16px, 1.8vw, 19px);
+      color: var(--choc);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    .t-author strong { font-weight: 700; font-size: 15px; display: block; color: var(--choc); }
+    .t-author span   { font-size: 14px; color: var(--stone); }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(197,110,35,0.25);
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .dot.on {
+      background: var(--orange);
+      transform: scale(1.35);
+    }
+
+    /* ===================================================
+       FINAL CTA
+    =================================================== */
+    #final-cta {
+      background: linear-gradient(135deg, var(--choc) 0%, var(--orange) 100%);
+      padding: 112px 6%;
+      text-align: center;
+    }
+    #final-cta h2 {
+      font-family: var(--head);
+      font-size: clamp(32px, 4.5vw, 52px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    #final-cta p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.74);
+      margin-bottom: 44px;
+    }
+
+    /* ===================================================
+       FOOTER
+    =================================================== */
+    #footer {
+      background: var(--choc);
+      padding: 64px 6% 32px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr 1fr;
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(197,110,35,0.28);
+    }
+
+    .f-logo img {
+      height: 48px;
+      filter: brightness(0) invert(1);
+      margin-bottom: 16px;
+    }
+    .f-logo .f-logo-text {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .f-tagline {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      max-width: 260px;
+    }
+
+    .f-col-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .f-links a {
+      display: block;
+      font-size: 15px;
+      color: rgba(255,255,255,0.78);
+      line-height: 2.4;
+      transition: color 0.2s;
+    }
+    .f-links a:hover { color: var(--orange); }
+
+    .f-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .f-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(197,110,35,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .f-icon svg { width: 18px; height: 18px; fill: var(--orange); }
+    .f-contact-row a,
+    .f-contact-row span {
+      font-size: 15px;
+      color: rgba(255,255,255,0.78);
+      transition: color 0.2s;
+    }
+    .f-contact-row a:hover { color: var(--orange); }
+
+    .footer-copy {
+      text-align: center;
+      padding-top: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-copy p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.38);
+    }
+
+    /* ===================================================
+       FLOATING WHATSAPP BUTTON
+    =================================================== */
+    #wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      opacity: 0;
+      animation: waIn 0.6s ease forwards 2s;
+    }
+    @keyframes waIn { to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { #wa-float { opacity: 1; animation: none; } }
+
+    .wa-btn {
+      position: relative;
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.42);
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .wa-btn:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(37,211,102,0.58); }
+    .wa-btn svg { width: 30px; height: 30px; fill: var(--white); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .wa-btn::before {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        border: 3px solid rgba(37,211,102,0.55);
+        animation: waPulse 2.5s ease-out infinite;
+      }
+      @keyframes waPulse {
+        0%   { transform: scale(1);   opacity: 1; }
+        70%  { transform: scale(1.5); opacity: 0; }
+        100% { transform: scale(1.5); opacity: 0; }
+      }
+    }
+
+    .wa-tip {
+      position: absolute;
+      right: 70px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--choc);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .wa-tip::after {
+      content: '';
+      position: absolute;
+      right: -6px; top: 50%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-right: none;
+      border-left-color: var(--choc);
+    }
+    #wa-float:hover .wa-tip { opacity: 1; }
+
+    /* ===================================================
+       RESPONSIVE BREAKPOINTS
+    =================================================== */
+    @media (max-width: 1100px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .how-steps { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+      .how-steps::before { display: none; }
+    }
+
+    @media (max-width: 900px) {
+      .special-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .special-photo { height: 320px; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .trust-item { border-right: none; border-bottom: 1px solid rgba(43,18,4,0.15); }
+      .trust-item:nth-child(odd) { border-right: 1px solid rgba(43,18,4,0.15); }
+      .trust-item:last-child { border-bottom: none; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .products-grid { grid-template-columns: 1fr; }
+      .how-steps { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .hero-content { padding-left: 6%; }
+      .t-slide { padding: 28px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; }
+      .hero-btns .btn { text-align: center; }
+      .trust-grid { grid-template-columns: 1fr 1fr; }
+      .trust-item:nth-child(odd) { border-right: 1px solid rgba(43,18,4,0.15); }
+      .trust-item:nth-child(3) { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======================================================
+     NAVBAR
+====================================================== -->
+<nav id="navbar" role="navigation" aria-label="Navegación principal">
+
+  <a href="#hero" class="nav-logo" aria-label="Bustigalletas – inicio">
+    <img src="images/logo.png"
+         alt="Bustigalletas"
+         onerror="this.src='https://www.genspark.ai/api/files/s/Lo5Zpk3q';this.onerror=null;" />
+  </a>
+
+  <ul class="nav-links" role="list">
+    <li><a href="#hero">Inicio</a></li>
+    <li><a href="#galletas">Galletas</a></li>
+    <li><a href="#como-funciona">Cómo pedirlas</a></li>
+    <li><a href="#pedidos-especiales">Pedidos especiales</a></li>
+    <li><a href="#footer">Contacto</a></li>
+  </ul>
+
+  <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%AA%9E"
+     class="nav-cta"
+     target="_blank" rel="noopener noreferrer"
+     aria-label="Pedir ahora por WhatsApp">
+    Pedir ahora 🍪
+  </a>
+
+  <button class="hamburger" id="ham" aria-label="Abrir menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="drawer" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+  <a href="#hero"               id="dl-1">Inicio</a>
+  <a href="#galletas"           id="dl-2">Galletas</a>
+  <a href="#como-funciona"      id="dl-3">Cómo pedirlas</a>
+  <a href="#pedidos-especiales" id="dl-4">Pedidos especiales</a>
+  <a href="#footer"             id="dl-5">Contacto</a>
+  <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%AA%9E"
+     class="mobile-cta-link"
+     target="_blank" rel="noopener noreferrer">
+    Pedir ahora 🍪
+  </a>
+</div>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+<section id="hero" aria-label="Portada">
+
+  <div class="hero-bg" role="img" aria-label="Brownie relleno de Nutella artesanal"></div>
+
+  <div class="hero-content">
+    <p  class="hero-anim hero-tag">🍪 Galletas Artesanales · Mérida</p>
+    <h1 class="hero-anim hero-h1">Las galletas que no<br>puedes comer solo una.</h1>
+    <p  class="hero-anim hero-sub">Hechas a mano en Mérida con ingredientes de calidad. Rellenas, esponjosas y listas para entrega.</p>
+    <div class="hero-anim hero-btns">
+      <a href="#galletas" class="btn btn-solid">Ver galletas</a>
+      <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%AA%9E"
+         class="btn btn-outline-white"
+         target="_blank" rel="noopener noreferrer">
+        Hacer pedido
+      </a>
+    </div>
+  </div>
+
+  <a href="#trust-bar" class="scroll-arrow" aria-label="Ver más contenido">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </a>
+
+</section>
+
+
+<!-- ======================================================
+     TRUST BAR
+====================================================== -->
+<section id="trust-bar" aria-label="Datos de confianza">
+  <div class="trust-grid">
+
+    <div class="trust-item reveal">
+      <span class="trust-number" data-target="100" data-suffix="%">0%</span>
+      <span class="trust-label">Hecho a mano</span>
+    </div>
+
+    <div class="trust-item reveal" style="transition-delay:.11s">
+      <span class="trust-number" data-target="6" data-suffix="">0</span>
+      <span class="trust-label">Sabores únicos</span>
+    </div>
+
+    <div class="trust-item reveal" style="transition-delay:.22s">
+      <span class="trust-number" data-static="true">48hrs</span>
+      <span class="trust-label">Tiempo de entrega</span>
+    </div>
+
+    <div class="trust-item reveal" style="transition-delay:.33s">
+      <span class="trust-number" data-target="0" data-suffix="">0</span>
+      <span class="trust-label">Conservadores artificiales</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================================================
+     PRODUCTS
+====================================================== -->
+<section id="galletas" aria-label="Nuestras galletas">
+
+  <span class="section-eyebrow reveal">🍫 Hecho con amor</span>
+  <h2  class="section-h2 reveal"   style="transition-delay:.08s">Nuestras galletas</h2>
+  <p   class="section-lead reveal" style="transition-delay:.16s">Cada mordida es una experiencia. Elige tu favorita.</p>
+
+  <div class="products-grid">
+
+    <!-- 1 – Brownie relleno de Nutella -->
+    <article class="product-card reveal" style="transition-delay:.05s">
+      <div class="card-media">
+        <img src="images/brownie_rellena.jpg"
+             alt="Brownie relleno de Nutella"
+             loading="lazy"
+             onerror="this.src='https://www.genspark.ai/api/files/s/76imT6oK';this.onerror=null;" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-name">Brownie relleno de Nutella</h3>
+        <p  class="card-desc">Intensa y equilibrada. Exterior crujiente, interior de brownie con Nutella derretida.</p>
+        <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20quiero%20pedir%20el%20Brownie%20relleno%20de%20Nutella%20%F0%9F%AA%9E"
+           class="card-btn" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+      </div>
+    </article>
+
+    <!-- 2 – Chispas con Nutella -->
+    <article class="product-card reveal" style="transition-delay:.10s">
+      <div class="card-media">
+        <img src="images/chispas_chocolate_partida.jpg"
+             alt="Chispas con Nutella"
+             loading="lazy"
+             onerror="this.src='https://www.genspark.ai/api/files/s/xO3x8tMe';this.onerror=null;" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-name">Chispas con Nutella</h3>
+        <p  class="card-desc">La clásica llevada al siguiente nivel. Rellena de Nutella y cargada de chispas de chocolate.</p>
+        <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20quiero%20pedir%20la%20de%20Chispas%20con%20Nutella%20%F0%9F%AA%9E"
+           class="card-btn" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+      </div>
+    </article>
+
+    <!-- 3 – Red Velvet -->
+    <article class="product-card reveal" style="transition-delay:.15s">
+      <div class="card-media">
+        <img src="images/red_velvet.jpg"
+             alt="Red Velvet con malvavisco"
+             loading="lazy"
+             onerror="this.src='https://www.genspark.ai/api/files/s/ma378KYv';this.onerror=null;" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-name">Red Velvet con malvavisco</h3>
+        <p  class="card-desc">Original y con mucho estilo. Roja por fuera, suave por dentro, con toque de malvavisco.</p>
+        <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20quiero%20pedir%20la%20Red%20Velvet%20%F0%9F%AA%9E"
+           class="card-btn" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+      </div>
+    </article>
+
+    <!-- 4 – Oreo V (gradient) -->
+    <article class="product-card reveal" style="transition-delay:.20s">
+      <div class="card-media">
+        <div class="card-gradient" style="background:linear-gradient(135deg,#1a0a02,#4a2408)" role="img" aria-label="Oreo V">
+          <span class="card-icon" aria-hidden="true">🖤</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-name">Oreo V</h3>
+        <p  class="card-desc">El sabor favorito de los fans de Oreo, con el toque especial de Bustigalletas.</p>
+        <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20quiero%20pedir%20la%20Oreo%20V%20%F0%9F%AA%9E"
+           class="card-btn" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+      </div>
+    </article>
+
+    <!-- 5 – Lotus con chocolate blanco (gradient) -->
+    <article class="product-card reveal" style="transition-delay:.25s">
+      <div class="card-media">
+        <div class="card-gradient" style="background:linear-gradient(135deg,#C56E23,#e8975a)" role="img" aria-label="Lotus con chocolate blanco">
+          <span class="card-icon" aria-hidden="true">🍯</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-name">Lotus con chocolate blanco</h3>
+        <p  class="card-desc">La combinación más adictiva: galleta Lotus con chocolate blanco derretido en cada bocado.</p>
+        <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20quiero%20pedir%20la%20Lotus%20con%20chocolate%20blanco%20%F0%9F%AA%9E"
+           class="card-btn" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+      </div>
+    </article>
+
+    <!-- 6 – Rosquita de fresa (gradient) -->
+    <article class="product-card reveal" style="transition-delay:.30s">
+      <div class="card-media">
+        <div class="card-gradient" style="background:linear-gradient(135deg,#9CD8E9,#6bafc2)" role="img" aria-label="Rosquita de fresa">
+          <span class="card-icon" aria-hidden="true">🍓</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-name">Rosquita de fresa</h3>
+        <p  class="card-desc">Fresca, ligera y deliciosa. La opción perfecta para quienes buscan algo diferente.</p>
+        <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20quiero%20pedir%20la%20Rosquita%20de%20fresa%20%F0%9F%AA%9E"
+           class="card-btn" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<!-- ======================================================
+     CÓMO FUNCIONA TU PEDIDO
+====================================================== -->
+<section id="como-funciona" aria-label="Cómo hacer tu pedido">
+
+  <div class="how-photo-bg" aria-hidden="true"></div>
+
+  <div class="how-z">
+    <span class="section-eyebrow reveal" style="color:#C56E23">📦 Sin complicaciones</span>
+    <h2 class="section-h2 how-title-white reveal" style="transition-delay:.08s">¿Cómo hago mi pedido?</h2>
+    <p  class="section-lead how-lead-white reveal" style="transition-delay:.16s">Simple, rápido y sin complicaciones.</p>
+
+    <div class="how-steps">
+
+      <div class="step reveal" style="transition-delay:.12s">
+        <div class="step-bubble">
+          <span aria-hidden="true">📱</span>
+          <span class="step-num" aria-hidden="true">1</span>
+        </div>
+        <h3 class="step-title">Escríbenos</h3>
+        <p  class="step-desc">Mándanos un WhatsApp con tus sabores favoritos y la cantidad.</p>
+      </div>
+
+      <div class="step reveal" style="transition-delay:.24s">
+        <div class="step-bubble">
+          <span aria-hidden="true">📅</span>
+          <span class="step-num" aria-hidden="true">2</span>
+        </div>
+        <h3 class="step-title">Confirma tu fecha</h3>
+        <p  class="step-desc">Hacemos entregas martes y jueves. Confirma tu día y dirección.</p>
+      </div>
+
+      <div class="step reveal" style="transition-delay:.36s">
+        <div class="step-bubble">
+          <span aria-hidden="true">🍪</span>
+          <span class="step-num" aria-hidden="true">3</span>
+        </div>
+        <h3 class="step-title">Horneamos para ti</h3>
+        <p  class="step-desc">Preparamos tu pedido con ingredientes frescos el mismo día de entrega.</p>
+      </div>
+
+      <div class="step reveal" style="transition-delay:.48s">
+        <div class="step-bubble">
+          <span aria-hidden="true">🚀</span>
+          <span class="step-num" aria-hidden="true">4</span>
+        </div>
+        <h3 class="step-title">Recibe en Mérida</h3>
+        <p  class="step-desc">Entrega a domicilio en Mérida. Tu pedido llega recién horneado.</p>
+      </div>
+
+    </div>
+
+    <div class="how-cta reveal" style="transition-delay:.56s">
+      <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%AA%9E"
+         class="btn btn-solid"
+         target="_blank" rel="noopener noreferrer">
+        Hacer mi pedido ahora
+      </a>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     PEDIDOS ESPECIALES
+====================================================== -->
+<section id="pedidos-especiales" aria-label="Pedidos especiales y eventos">
+  <div class="special-wrap">
+
+    <div class="special-photo reveal">
+      <div class="photo-fallback" aria-hidden="true">🎁</div>
+      <img src="images/muestra_chispas.jpg"
+           alt="Caja de galletas Bustigalletas para pedidos especiales"
+           loading="lazy"
+           onerror="this.src='https://www.genspark.ai/api/files/s/5A9yMcAO';this.onerror=null;" />
+    </div>
+
+    <div class="special-copy reveal" style="transition-delay:.15s">
+      <span class="section-eyebrow" style="text-align:left;margin-bottom:14px">🎁 Regalos y eventos</span>
+      <h2>¿Tienes un evento especial?</h2>
+      <p>Cumpleaños, bodas, eventos corporativos o simplemente porque sí. Hacemos cajas personalizadas con tus sabores favoritos.</p>
+      <ul class="special-bullets">
+        <li><span class="check" aria-hidden="true">✓</span> Cajas de 6, 12 o más galletas</li>
+        <li><span class="check" aria-hidden="true">✓</span> Empaque especial para regalo</li>
+        <li><span class="check" aria-hidden="true">✓</span> Sabores a elegir o combinados</li>
+      </ul>
+      <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20cotizar%20un%20pedido%20especial%20%F0%9F%8E%81"
+         class="btn btn-solid"
+         target="_blank" rel="noopener noreferrer">
+        Cotizar pedido especial
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================================================
+     TESTIMONIOS
+====================================================== -->
+<section id="testimonios" aria-label="Testimonios de clientes">
+
+  <span class="section-eyebrow reveal">⭐ Clientes felices</span>
+  <h2  class="section-h2 reveal"   style="transition-delay:.08s">Lo que dicen nuestros clientes</h2>
+  <p   class="section-lead reveal" style="transition-delay:.16s;margin-bottom:48px">Más de 100 pedidos felices y contando.</p>
+
+  <div class="carousel-wrap reveal" style="transition-delay:.24s" role="region" aria-label="Carrusel de testimonios" aria-live="polite">
+
+    <div class="t-slide on" role="group" aria-label="Testimonio 1 de 3">
+      <div class="stars" aria-label="5 estrellas">★★★★★</div>
+      <blockquote class="t-quote">
+        "El brownie relleno de Nutella es lo mejor que he probado. Lo pedí para mi cumpleaños y todos querían el contacto."
+      </blockquote>
+      <div class="t-author">
+        <strong>Daniela R.</strong>
+        <span>Mérida Norte · Cliente Bustigalletas</span>
+      </div>
+    </div>
+
+    <div class="t-slide" role="group" aria-label="Testimonio 2 de 3">
+      <div class="stars" aria-label="5 estrellas">★★★★★</div>
+      <blockquote class="t-quote">
+        "Las de Red Velvet son impresionantes. Las pedí para un regalo y quedaron perfectas. Muy buena presentación."
+      </blockquote>
+      <div class="t-author">
+        <strong>Marco A.</strong>
+        <span>Altabrisa · Cliente Bustigalletas</span>
+      </div>
+    </div>
+
+    <div class="t-slide" role="group" aria-label="Testimonio 3 de 3">
+      <div class="stars" aria-label="5 estrellas">★★★★★</div>
+      <blockquote class="t-quote">
+        "Rapidísimos y muy atentos. Las galletas llegaron recién horneadas y la caja estaba preciosa."
+      </blockquote>
+      <div class="t-author">
+        <strong>Sofía T.</strong>
+        <span>García Ginerés · Cliente Bustigalletas</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="dots" role="tablist" aria-label="Seleccionar testimonio">
+    <button class="dot on" role="tab" aria-selected="true"  aria-label="Testimonio 1" data-i="0"></button>
+    <button class="dot"    role="tab" aria-selected="false" aria-label="Testimonio 2" data-i="1"></button>
+    <button class="dot"    role="tab" aria-selected="false" aria-label="Testimonio 3" data-i="2"></button>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     FINAL CTA
+====================================================== -->
+<section id="final-cta" aria-label="Orden final">
+  <h2 class="reveal">¿Lista tu próxima orden?</h2>
+  <p  class="reveal" style="transition-delay:.12s">
+    Entregas martes y jueves en Mérida &nbsp;·&nbsp; Pide con 24&nbsp;hrs de anticipación
+  </p>
+  <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%AA%9E"
+     class="btn btn-white-fill reveal"
+     style="transition-delay:.24s"
+     target="_blank" rel="noopener noreferrer">
+    🍪 Pedir mis galletas ahora
+  </a>
+</section>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+<footer id="footer" aria-label="Pie de página">
+  <div class="footer-inner">
+
+    <!-- Col 1 -->
+    <div>
+      <div class="f-logo">
+        <img src="images/logo.png"
+             alt="Bustigalletas"
+             onerror="this.src='https://www.genspark.ai/api/files/s/Lo5Zpk3q';this.onerror=null;" />
+      </div>
+      <p class="f-tagline">Galletas artesanales hechas con amor en Mérida, Yucatán.</p>
+    </div>
+
+    <!-- Col 2 -->
+    <div>
+      <p class="f-col-title">Navegación</p>
+      <nav class="f-links" aria-label="Links del footer">
+        <a href="#hero">Inicio</a>
+        <a href="#galletas">Galletas</a>
+        <a href="#como-funciona">Cómo pedirlas</a>
+        <a href="#pedidos-especiales">Pedidos especiales</a>
+        <a href="#testimonios">Testimonios</a>
+      </nav>
+    </div>
+
+    <!-- Col 3 -->
+    <div>
+      <p class="f-col-title">Contáctanos</p>
+
+      <div class="f-contact-row">
+        <div class="f-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+        </div>
+        <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%AA%9E"
+           target="_blank" rel="noopener noreferrer">999 136 9402</a>
+      </div>
+
+      <div class="f-contact-row">
+        <div class="f-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </div>
+        <a href="https://www.instagram.com/bustigalletas/"
+           target="_blank" rel="noopener noreferrer">@bustigalletas</a>
+      </div>
+
+      <div class="f-contact-row">
+        <div class="f-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+          </svg>
+        </div>
+        <span>Mérida, Yucatán</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    <p>© 2025 Bustigalletas · Todos los derechos reservados · Hecho con 🍪 en Mérida, Yucatán</p>
+  </div>
+</footer>
+
+
+<!-- ======================================================
+     FLOATING WHATSAPP
+====================================================== -->
+<div id="wa-float" aria-label="Contacto rápido por WhatsApp">
+  <a href="https://wa.me/529991369402?text=Hola%20Bustigalletas%2C%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%AA%9E"
+     class="wa-btn"
+     target="_blank" rel="noopener noreferrer"
+     aria-label="Abrir WhatsApp con Bustigalletas">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+    <span class="wa-tip">¡Pedir galletas!</span>
+  </a>
+</div>
+
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Navbar scroll ── */
+  const nav = document.getElementById('navbar');
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── Mobile hamburger ── */
+  const ham    = document.getElementById('ham');
+  const drawer = document.getElementById('drawer');
+  let isOpen   = false;
+
+  function toggleDrawer(force) {
+    isOpen = (force !== undefined) ? force : !isOpen;
+    ham.classList.toggle('open', isOpen);
+    drawer.classList.toggle('open', isOpen);
+    ham.setAttribute('aria-expanded', isOpen);
+    drawer.setAttribute('aria-hidden', !isOpen);
+  }
+
+  ham.addEventListener('click', () => toggleDrawer());
+
+  // Close on link click
+  drawer.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => toggleDrawer(false))
+  );
+
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (isOpen && !drawer.contains(e.target) && !ham.contains(e.target)) {
+      toggleDrawer(false);
+    }
+  });
+
+  /* ── Scroll-reveal via IntersectionObserver ── */
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduced) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+
+  /* ── Count-up for trust bar ── */
+  function countUp(el, target, suffix, duration) {
+    const step = target / (duration / 16);
+    let cur = 0;
+    const id = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      el.textContent = Math.round(cur) + suffix;
+      if (cur >= target) clearInterval(id);
+    }, 16);
+  }
+
+  const trustIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('[data-target]').forEach(el => {
+        if (el.dataset.static) return;
+        countUp(el, +el.dataset.target, el.dataset.suffix || '', 2000);
+      });
+      trustIO.unobserve(entry.target);
+    });
+  }, { threshold: 0.4 });
+
+  const trustBar = document.getElementById('trust-bar');
+  if (trustBar) trustIO.observe(trustBar);
+
+  /* ── Testimonial carousel ── */
+  const slides = Array.from(document.querySelectorAll('.t-slide'));
+  const dots   = Array.from(document.querySelectorAll('.dot'));
+  let cur = 0, timer;
+
+  function goTo(i) {
+    slides[cur].classList.remove('on');
+    dots[cur].classList.remove('on');
+    dots[cur].setAttribute('aria-selected', 'false');
+    cur = i;
+    slides[cur].classList.add('on');
+    dots[cur].classList.add('on');
+    dots[cur].setAttribute('aria-selected', 'true');
+  }
+
+  function next() { goTo((cur + 1) % slides.length); }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, 4000);
+  }
+
+  dots.forEach(d => d.addEventListener('click', () => {
+    goTo(+d.dataset.i);
+    resetTimer();
+  }));
+
+  resetTimer();
+
+  /* ── Scroll arrow ── */
+  const arrow = document.querySelector('.scroll-arrow');
+  if (arrow) {
+    arrow.addEventListener('click', e => {
+      e.preventDefault();
+      const dest = document.getElementById('trust-bar');
+      if (dest) dest.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
